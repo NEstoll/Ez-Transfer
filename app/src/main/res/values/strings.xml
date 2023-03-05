@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Ez-Transfer</string>
+    <string name="nearby_devices">Nearby Devices</string>
 </resources>

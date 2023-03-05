@@ -7,8 +7,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.csci448.nestoll.ez_transfer.data.Device
 
 @Composable
-fun DeviceCard(device: Device) {
-    Button(onClick = { /*TODO*/ }) {
+fun DeviceCard(device: Device, onClick: () -> Unit) {
+    Button(onClick = onClick) {
         Text(text = "Device 1")
     }
 }
@@ -17,5 +17,5 @@ fun DeviceCard(device: Device) {
 @Preview
 @Composable
 fun PreviewCard() {
-    DeviceCard(Device())
+    DeviceCard(Device()) {}
 }
