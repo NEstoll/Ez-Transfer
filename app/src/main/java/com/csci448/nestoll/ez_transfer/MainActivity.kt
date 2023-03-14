@@ -1,6 +1,8 @@
 package com.csci448.nestoll.ez_transfer
 
 import android.os.Bundle
+import android.view.ViewGroup
+import android.widget.Button
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,32 +24,42 @@ import com.csci448.nestoll.ez_transfer.ui.theme.EzTransferTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            val navController = rememberNavController()
-            EzTransferTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    NavHost(navController = navController, startDestination = "myNavGraph") {
-                        navigation (route = "myNavGraph", startDestination = "DeviceSelector") {
-                            composable(route = "DeviceSelector") {
-                                DeviceScreen(deviceList = listOf(Device())) {
-                                    device -> {navController.navigate("FileSelector")}
-                                }
-                            }
-                            composable(route = "FileSelector") {
-                                FileSelector() {navController.navigate("TransferScreen")}
-                            }
-                            composable(route = "TransferScreen") {
-                                TransferScreen()
-                            }
-                        }
-                    }
-                }
-            }
+        val crashButton = Button(this)
+        crashButton.text = "Test Crash"
+        crashButton.setOnClickListener {
+            throw RuntimeException("Test Crash") // Force a crash
         }
+
+        addContentView(crashButton, ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT))
+//        setContent {
+//            val navController = rememberNavController()
+//            EzTransferTheme {
+//                // A surface container using the 'background' color from the theme
+//                Surface(
+//                    modifier = Modifier.fillMaxSize(),
+//                    color = MaterialTheme.colorScheme.background
+//                ) {
+//                    NavHost(navController = navController, startDestination = "myNavGraph") {
+//                        navigation (route = "myNavGraph", startDestination = "DeviceSelector") {
+//                            composable(route = "DeviceSelector") {
+//                                DeviceScreen(deviceList = listOf(Device())) {
+//                                    device -> {navController.navigate("FileSelector")}
+//                                }
+//
+//                            }
+//                            composable(route = "FileSelector") {
+//                                FileSelector {navController.navigate("TransferScreen")}
+//                            }
+//                            composable(route = "TransferScreen") {
+//                                TransferScreen()
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 }
 

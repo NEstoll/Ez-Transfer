@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "364907176707",
+    "project_id": "ez-transfer-bfc4a",
+    "storage_bucket": "ez-transfer-bfc4a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:364907176707:android:d92f9b0e70d1e69a727f36",
+        "android_client_info": {
+          "package_name": "com.csci448.nestoll.ez_transfer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "364907176707-0g2hqk11e7omga539pegnlioiicj924d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBBTjTADhWEtbmAGTYaR9kWVJdKIyepBQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "364907176707-0g2hqk11e7omga539pegnlioiicj924d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
