@@ -7,24 +7,20 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.csci448.nestoll.ez_transfer.R
+import java.security.Permission
 
 
 @Composable
-fun FileSelector(onFileSelected: () -> Unit) {
+fun Permissions() {
 
-    Column(modifier = Modifier.clickable { onFileSelected() }) {
-        Text(text = "File 1")
-        Text(text = "File 2")
-        Text(text = "File 3")
-        Text(text = "File 4")
-        Text(text = "File 5")
-        Text(text = "File 7")
-    }
+    Text(text = stringResource(id = R.string.permission_request))
 }
 
 @Preview
 @Composable
-fun PreviewFileSelector() {
-    FileSelector() {}
+fun PreviewPermissions() {
+    Permissions()
 }
