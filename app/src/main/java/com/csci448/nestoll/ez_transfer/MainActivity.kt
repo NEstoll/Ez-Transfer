@@ -12,18 +12,18 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.*
 import com.csci448.nestoll.ez_transfer.data.TransferViewModel
 import com.csci448.nestoll.ez_transfer.presentation.DeviceScreen
 import com.csci448.nestoll.ez_transfer.presentation.Permissions
@@ -57,6 +57,7 @@ class MainActivity : ComponentActivity() {
     }
     //create bluetooth handler
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //create launcher so we can start file selector
@@ -72,28 +73,48 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavHost(navController = navController, startDestination = "myNavGraph") {
-                        navigation (route = "myNavGraph", startDestination = if (hasPermission) "Permissions" else "FileSelector") {
-                            composable(route = "Permissions") {
-                                //permissions not granted, ask user for them
-                                Permissions()
-                            }
-
-                            composable(route = "FileSelector") {
-                                //launch file selector, then go to device screen
-                                fileLauncher.launch("")
-                                navController.navigate("DeviceSelector")
-                            }
-                            composable(route = "DeviceSelector") {
-                                DeviceScreen(deviceList = viewModel.availableDevices.value) {
-                                    device -> {
-                                        viewModel.connectedDevice.value = device
-                                        navController.navigate("TransferScreen")
+                    Column() {
+                        TopAppBar(
+                            navigationIcon = if (navController.previousBackStackEntry != null) {
+                                {
+                                    IconButton(onClick = { navController.navigateUp() }) {
+                                        Icon(
+                                            imageVector = Icons.Filled.ArrowBack,
+                                            contentDescription = stringResource(R.string.menu_back_desc)
+                                        )
                                     }
                                 }
-                            }
-                            composable(route = "TransferScreen") {
-                                TransferScreen(viewModel)
+                            } else {
+                                { }
+                            },
+                            title = { Text(stringResource(R.string.app_name)) }
+                        )
+                        NavHost(navController = navController, startDestination = "myNavGraph") {
+                            navigation(
+                                route = "myNavGraph",
+                                startDestination = if (hasPermission) "Permissions" else "FileSelector"
+                            ) {
+                                composable(route = "Permissions") {
+                                    //permissions not granted, ask user for them
+                                    Permissions()
+                                }
+
+                                composable(route = "FileSelector") {
+                                    //launch file selector, then go to device screen
+                                    fileLauncher.launch("")
+                                    navController.navigate("DeviceSelector")
+                                }
+                                composable(route = "DeviceSelector") {
+                                    DeviceScreen(deviceList = viewModel.availableDevices.value) { device ->
+                                        {
+                                            viewModel.connectedDevice.value = device
+                                            navController.navigate("TransferScreen")
+                                        }
+                                    }
+                                }
+                                composable(route = "TransferScreen") {
+                                    TransferScreen(viewModel)
+                                }
                             }
                         }
                     }
