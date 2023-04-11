@@ -1,5 +1,5 @@
 Usage Instructions: When first opening the app, you will see a screen that says "Please enable bluetooth", to get to the file selection portion, you must go to the settings for our app and allow bluetooth there.
-The file selector should now be the first thing to appear, select a file that you would transfer to another device.
+The file selector should now be the first thing to appear, select a file that you would transfer to another device then press the next button.
 This now takes you to the device selection screen, a list of nearby devices would appear here. Select a device to start the transfer (or press next for now).
 The transfer screen now appears with a progress bar.
 
