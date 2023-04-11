@@ -1,6 +1,8 @@
 package com.csci448.nestoll.ez_transfer
 
 import android.Manifest
+import android.Manifest.permission.BLUETOOTH_CONNECT
+import android.Manifest.permission.BLUETOOTH_SCAN
 import android.app.Activity
 import android.content.Context
 import android.content.Intent

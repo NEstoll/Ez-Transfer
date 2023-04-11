@@ -1,6 +1,11 @@
-Usage Instructions: On the first screen of the app, you should see a list of available devices, selecting one will bring you to the file selection to choose which files you would like to send to that device. You will end on a loading screen to confirm your file is sent. Then you just use the android back button to return to the device screen.
+Usage Instructions: When first opening the app, you will see a screen that says "Please enable bluetooth", to get to the file selection portion, you must go to the settings for our app and allow bluetooth there.
+The file selector should now be the first thing to appear, select a file that you would transfer to another device.
+This now takes you to the device selection screen, a list of nearby devices would appear here. Select a device to start the transfer.
+The transfer screen now appears with a progress bar.
 
-Known Bugs: No currently known bugs other than functionality not yet being implemented.
+Known Bugs: 
+- The permissions are not prompted to be changed
+- There is no list of devices
 
-Areas for Feedback: Should we include the separate screen for file selection, or would this be better done with purely using an intent to interact with that device's file system and have that handle the file selection process itself?
+Areas for Feedback: What other functionality would be helpful within the app and should the file selection or device selection come first?
 
