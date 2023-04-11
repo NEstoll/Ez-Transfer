@@ -28,6 +28,7 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.compose.*
 import com.csci448.nestoll.ez_transfer.data.TransferViewModel
 import com.csci448.nestoll.ez_transfer.presentation.DeviceScreen
+import com.csci448.nestoll.ez_transfer.presentation.FileScreen
 import com.csci448.nestoll.ez_transfer.presentation.Permissions
 import com.csci448.nestoll.ez_transfer.presentation.TransferScreen
 import com.csci448.nestoll.ez_transfer.ui.theme.EzTransferTheme
@@ -103,11 +104,19 @@ class MainActivity : ComponentActivity() {
 
                                 composable(route = "FileSelector") {
                                     //launch file selector, then go to device screen
-                                    fileLauncher.launch("")
-                                    navController.navigate("DeviceSelector")
+                                    FileScreen (
+                                        addFileClicked = {
+                                            fileLauncher.launch("")
+                                        },
+                                        nextButtonClicked = {
+                                            navController.navigate("DeviceSelector")
+                                        }
+                                    )
                                 }
                                 composable(route = "DeviceSelector") {
-                                    DeviceScreen(deviceList = viewModel.availableDevices.value) { device ->
+                                    DeviceScreen(deviceList = viewModel.availableDevices.value,
+                                        nextButtonClicked = {navController.navigate("TransferScreen")},
+                                    ) { device ->
                                         {
                                             viewModel.connectedDevice.value = device
                                             navController.navigate("TransferScreen")
@@ -130,7 +139,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     EzTransferTheme {
-        DeviceScreen(deviceList = TransferViewModel().availableDevices.value) { {} }
+        DeviceScreen(deviceList = TransferViewModel().availableDevices.value, nextButtonClicked = {}) { {} }
     }
 }
 

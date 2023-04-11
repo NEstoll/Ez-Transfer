@@ -4,4 +4,7 @@
     <string name="permission_request">Please enable bluetooth</string>
     <string name="no_devices">No devices detected</string>
     <string name="menu_back_desc">Back</string>
+    <string name="files_screen">Files to Transfer</string>
+    <string name="add_file">Select File</string>
+    <string name="next">Next</string>
 </resources>
