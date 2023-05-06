@@ -17,13 +17,13 @@ import com.csci448.nestoll.ez_transfer.data.TransferViewModel
 fun TransferScreen(viewModel: TransferViewModel) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(modifier = Modifier.align(Alignment.CenterHorizontally),
-            text = "Transfering file: " + viewModel.file.value?.name)
+            text = "Transferring file: " + viewModel.file.value?.name)
         Column(modifier = Modifier.fillMaxWidth()) {
             LinearProgressIndicator(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(15.dp),
-                progress = .7f,
+                progress = viewModel.currentProgress.value.toFloat() / 100.0f,
                 trackColor = Color.LightGray,
                 color = Color.Red //progress color
             )

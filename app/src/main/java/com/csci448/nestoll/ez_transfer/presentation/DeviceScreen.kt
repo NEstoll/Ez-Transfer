@@ -18,25 +18,37 @@ import com.csci448.nestoll.ez_transfer.R
 
 @Composable
 fun DeviceScreen(nextButtonClicked: () -> Unit, deviceList: List<BluetoothDevice>, deviceClicked: (BluetoothDevice) -> () -> Unit) {
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Text(modifier = Modifier.align(Alignment.CenterHorizontally),
-            text = stringResource(id = R.string.nearby_devices))
-        if (deviceList.isEmpty()) {
-            Text(modifier = Modifier.align(Alignment.CenterHorizontally),
-                text = stringResource(id = R.string.no_devices))
-        }
-        LazyColumn() {
-            try {
-                items(deviceList) { device -> DeviceCard(device.name, deviceClicked(device)) }
-            } catch(e: SecurityException) {
-                throw e
+    if (deviceList.isNotEmpty()) {
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Text(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                text = stringResource(id = R.string.nearby_devices)
+            )
+            if (deviceList.isEmpty()) {
+                Text(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    text = stringResource(id = R.string.no_devices)
+                )
             }
+            LazyColumn {
+                try {
+                    items(deviceList) { device -> DeviceCard(device.name, deviceClicked(device)) }
+                } catch (e: SecurityException) {
+                    throw e
+                }
 
-        }
-        Row(modifier = Modifier.fillMaxHeight().align(Alignment.CenterHorizontally)) {
-            Button(modifier = Modifier.align(Alignment.Bottom), onClick = nextButtonClicked) {
-                Text(text = stringResource(id = R.string.next))
             }
+            Row(modifier = Modifier
+                .fillMaxHeight()
+                .align(Alignment.CenterHorizontally)) {
+                Button(modifier = Modifier.align(Alignment.Bottom), onClick = nextButtonClicked) {
+                    Text(text = stringResource(id = R.string.next))
+                }
+            }
+        }
+    } else {
+        Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(text = "No connected devices")
         }
     }
 }
