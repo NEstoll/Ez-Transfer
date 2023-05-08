@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EzTransfer"
         tools:targetApi="33">
+        <service android:name=".data.ConnectionService"/>
         <receiver
             android:name=".data.BluetoothConnectionReceiver"
             android:exported="false"

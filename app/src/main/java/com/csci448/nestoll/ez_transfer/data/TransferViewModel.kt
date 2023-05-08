@@ -31,7 +31,9 @@ class TransferViewModel() {
     }
 
     fun manageMyConnectedSocket(socket: BluetoothSocket) {
-        val file_in = FileInputStream(file.value)
+        val file_in = FileInputStream(file.value?: return)
+//        socket.outputStream.write(file.value?.name?.encodeToByteArray() ?: return)
+//        socket.outputStream.write(0)
         file_in.transferTo(socket.outputStream)
     }
 

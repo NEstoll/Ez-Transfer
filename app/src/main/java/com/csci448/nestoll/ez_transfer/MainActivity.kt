@@ -30,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
 import androidx.navigation.compose.*
+import com.csci448.nestoll.ez_transfer.data.ConnectionService
 import com.csci448.nestoll.ez_transfer.data.TransferViewModel
 import com.csci448.nestoll.ez_transfer.presentation.DeviceScreen
 import com.csci448.nestoll.ez_transfer.presentation.FileScreen
@@ -69,7 +70,6 @@ class MainActivity : ComponentActivity() {
 
 
     @SuppressLint("RestrictedApi")
-    @RequiresApi(Build.VERSION_CODES.S)
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +83,7 @@ class MainActivity : ComponentActivity() {
             bluetoothManager.adapter.cancelDiscovery()
             bluetoothManager.adapter.startDiscovery()
         }
+        Intent(this, ConnectionService::class.java).also { intent -> startService(intent) }
         setContent {
             val navController = rememberNavController()
             EzTransferTheme {
