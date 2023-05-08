@@ -152,7 +152,9 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                                 composable(route = "TransferScreen") {
-                                    TransferScreen(viewModel)
+                                    TransferScreen(viewModel) {
+                                        navController.navigate("FileSelector")
+                                    }
                                 }
                             }
                         }

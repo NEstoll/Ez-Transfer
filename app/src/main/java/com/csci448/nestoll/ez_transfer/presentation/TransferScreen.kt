@@ -3,6 +3,7 @@ package com.csci448.nestoll.ez_transfer.presentation
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.Button
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.csci448.nestoll.ez_transfer.data.TransferViewModel
 
 @Composable
-fun TransferScreen(viewModel: TransferViewModel) {
+fun TransferScreen(viewModel: TransferViewModel, backToHome: () -> Unit) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(modifier = Modifier.align(Alignment.CenterHorizontally),
             text = "Transferring file: " + viewModel.file.value?.name)
@@ -28,11 +29,14 @@ fun TransferScreen(viewModel: TransferViewModel) {
                 color = Color.Red //progress color
             )
         }
+        Button(onClick = backToHome) {
+            Text("Back to File Select")
+        }
     }
 }
 
 @Preview
 @Composable
 fun PreviewTransfer() {
-    TransferScreen(TransferViewModel())
+    TransferScreen(TransferViewModel()) {}
 }
