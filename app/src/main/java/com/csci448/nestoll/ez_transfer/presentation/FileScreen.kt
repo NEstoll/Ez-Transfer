@@ -11,16 +11,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.csci448.nestoll.ez_transfer.R
+import java.io.File
 
 @Composable
-fun FileScreen(addFileClicked: () -> Unit, nextButtonClicked: () -> Unit) {
+fun FileScreen(addFileClicked: () -> Unit, nextButtonClicked: () -> Unit, file: File?) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(modifier = Modifier.align(Alignment.CenterHorizontally),
             text = stringResource(id = R.string.files_screen))
+        if(file != null) {
+            Text(text = file.name)
+        }
         Button(modifier = Modifier.fillMaxWidth(), onClick = addFileClicked) {
             Text(text = stringResource(id = R.string.add_file))
         }
-        Row(modifier = Modifier.fillMaxHeight().align(Alignment.CenterHorizontally)) {
+        Row(modifier = Modifier
+            .fillMaxHeight()
+            .align(Alignment.CenterHorizontally)) {
             Button(modifier = Modifier.align(Alignment.Bottom), onClick = nextButtonClicked) {
                 Text(text = stringResource(id = R.string.next))
             }

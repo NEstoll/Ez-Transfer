@@ -128,7 +128,8 @@ class MainActivity : ComponentActivity() {
                                         nextButtonClicked = {
                                             if (viewModel.file.value != null) navController.navigate("DeviceSelector")
                                             else Toast.makeText(this@MainActivity,  "Please select file", Toast.LENGTH_SHORT).show()
-                                        }
+                                        },
+                                        viewModel.file.value
                                     )
                                 }
                                 composable(route = "DeviceSelector") {
@@ -179,6 +180,6 @@ fun DefaultPreview() {
 @Composable
 fun TransferPreview() {
     EzTransferTheme {
-        TransferScreen(viewModel = TransferViewModel())
+        TransferScreen(viewModel = TransferViewModel()) {}
     }
 }
