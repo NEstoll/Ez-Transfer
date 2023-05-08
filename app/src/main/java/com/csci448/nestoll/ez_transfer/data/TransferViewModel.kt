@@ -50,7 +50,7 @@ class TransferViewModel() {
         override fun run() {
             try {
                 // Cancel discovery because it otherwise slows down the connection.
-                bluetoothAdapter?.cancelDiscovery()
+                bluetoothAdapter.cancelDiscovery()
 
                 mmSocket?.let { socket ->
                     // Connect to the remote device through the socket. This call blocks

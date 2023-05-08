@@ -80,6 +80,7 @@ class MainActivity : ComponentActivity() {
         if (hasPermission) {
             val bluetoothManager: BluetoothManager =
                 this@MainActivity.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+            viewModel.availableDevices.value = bluetoothManager.adapter.bondedDevices.toMutableList()
             bluetoothManager.adapter.cancelDiscovery()
             bluetoothManager.adapter.startDiscovery()
         }
