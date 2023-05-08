@@ -77,13 +77,13 @@ class MainActivity : ComponentActivity() {
         val fileLauncher: ActivityResultLauncher<String> = registerForActivityResult(fileContract, fileCallback)
         //check permissions (requires higher api?)
         val hasPermission = ContextCompat.checkSelfPermission( this, Manifest.permission.BLUETOOTH_CONNECT ) != PackageManager.PERMISSION_GRANTED
-        if (hasPermission) {
+//        if (hasPermission) {
             val bluetoothManager: BluetoothManager =
                 this@MainActivity.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
             viewModel.availableDevices.value = bluetoothManager.adapter.bondedDevices.toMutableList()
             bluetoothManager.adapter.cancelDiscovery()
             bluetoothManager.adapter.startDiscovery()
-        }
+//        }
         Intent(this, ConnectionService::class.java).also { intent -> startService(intent) }
         setContent {
             val navController = rememberNavController()
