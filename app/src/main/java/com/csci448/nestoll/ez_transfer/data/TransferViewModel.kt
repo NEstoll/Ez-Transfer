@@ -31,10 +31,11 @@ class TransferViewModel() {
     }
 
     fun manageMyConnectedSocket(socket: BluetoothSocket) {
-        val file_in = FileInputStream(file.value?: return)
+        val file_in = file.value?.inputStream()
+//        val file_in = FileInputStream(file.value?: return)
 //        socket.outputStream.write(file.value?.name?.encodeToByteArray() ?: return)
 //        socket.outputStream.write(0)
-        file_in.transferTo(socket.outputStream)
+        file_in?.transferTo(socket.outputStream)
     }
 
     private inner class ConnectThread(device: BluetoothDevice, val bluetoothAdapter: BluetoothAdapter) : Thread() {
