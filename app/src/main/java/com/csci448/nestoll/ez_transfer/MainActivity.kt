@@ -1,6 +1,7 @@
 package com.csci448.nestoll.ez_transfer
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
@@ -8,13 +9,16 @@ import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
@@ -36,10 +40,10 @@ import java.io.File
 
 class MainActivity : ComponentActivity() {
     //create bluetooth handler
-    private val bluetoothManager: BluetoothManager? = getSystemService(BluetoothManager::class.java)
-    private val bluetoothAdapter: BluetoothAdapter? = bluetoothManager?.adapter
+//    private val bluetoothManager: BluetoothManager? = getSystemService(BluetoothManager::class.java)
+//    private val bluetoothAdapter: BluetoothAdapter? = bluetoothManager?.adapter
     //create view model
-    private val viewModel = TransferViewModel()
+    private val viewModel = TransferViewModel.instance
 
     //create contract/callback for file selection
     private val fileContract = object: ActivityResultContract<String, File?>() {
@@ -62,6 +66,10 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+
+
+    @SuppressLint("RestrictedApi")
+    @RequiresApi(Build.VERSION_CODES.S)
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +77,12 @@ class MainActivity : ComponentActivity() {
         val fileLauncher: ActivityResultLauncher<String> = registerForActivityResult(fileContract, fileCallback)
         //check permissions (requires higher api?)
         val hasPermission = ContextCompat.checkSelfPermission( this, Manifest.permission.BLUETOOTH_CONNECT ) != PackageManager.PERMISSION_GRANTED
-
+        if (hasPermission) {
+            val bluetoothManager: BluetoothManager =
+                this@MainActivity.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+            bluetoothManager.adapter.cancelDiscovery()
+            bluetoothManager.adapter.startDiscovery()
+        }
         setContent {
             val navController = rememberNavController()
             EzTransferTheme {
@@ -118,12 +131,12 @@ class MainActivity : ComponentActivity() {
                                 }
                                 composable(route = "DeviceSelector") {
 
-                                    val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter?.bondedDevices
-                                    val deviceList: MutableList<BluetoothDevice> = mutableListOf()
-                                    pairedDevices?.forEach { device ->
-                                        deviceList.add(device)
-                                    }
-                                    DeviceScreen(deviceList = deviceList,
+//                                    val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter?.bondedDevices
+//                                    val deviceList: MutableList<BluetoothDevice> = mutableListOf()
+//                                    pairedDevices?.forEach { device ->
+//                                        deviceList.add(device)
+//                                    }
+                                    DeviceScreen(deviceList = viewModel.availableDevices.value,
                                         nextButtonClicked = {
                                             if (viewModel.connectedDevice.value != null) navController.navigate("TransferScreen")
                                             else Toast.makeText(this@MainActivity, "Please select device", Toast.LENGTH_SHORT).show()
@@ -131,6 +144,7 @@ class MainActivity : ComponentActivity() {
                                     ) { device ->
                                         {
                                             viewModel.connectedDevice.value = device
+                                            viewModel.connect((this@MainActivity.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager).adapter)
                                             navController.navigate("TransferScreen")
                                         }
                                     }
@@ -144,6 +158,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+
     }
 }
 

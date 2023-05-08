@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,7 +12,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.EzTransfer"
-        tools:targetApi="31">
+        tools:targetApi="33">
+        <receiver
+            android:name=".data.BluetoothConnectionReceiver"
+            android:exported="false"
+            android:enabled="true"
+            android:permission="android.permission.BLUETOOTH">
+        </receiver>
         <activity
             android:name=".MainActivity"
             android:exported="true"
