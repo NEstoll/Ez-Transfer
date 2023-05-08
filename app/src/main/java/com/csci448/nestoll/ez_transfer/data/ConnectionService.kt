@@ -5,17 +5,26 @@ import android.bluetooth.BluetoothManager
 import android.bluetooth.BluetoothSocket
 import android.content.Intent
 import android.os.IBinder
-import androidx.core.content.getSystemService
 import java.io.File
 
 class ConnectionService: Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val adapter = (this.getSystemService(BLUETOOTH_SERVICE) as BluetoothManager).adapter
         try {
-            val serverSocket =adapter.listenUsingRfcommWithServiceRecord("Ez Tansfer", TransferViewModel.UUID)
-            val socket = serverSocket.accept()
-            serverSocket.close()
-            handleSocket(socket)
+            class listenThread : Thread() {
+                override fun run() {
+                    super.run()
+                    val serverSocket =
+                        adapter.listenUsingRfcommWithServiceRecord(
+                            "Ez Tansfer",
+                            TransferViewModel.UUID
+                        )
+                    val socket = serverSocket.accept()
+                    serverSocket.close()
+                    handleSocket(socket)
+                }
+            }
+            listenThread().start()
         } catch (e: SecurityException) {
             throw e
         }
